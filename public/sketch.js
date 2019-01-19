@@ -74,13 +74,14 @@ function gameOver() {
 
 var ans12;
 var score = 0;
-var inc = 1;
+var inc = 2;
 
 function mousePressed() {
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
       if (grid[i][j].contains(mouseX, mouseY)) {
         if (!grid[i][j].bee) {
+          
           // do {
           var num = floor(random(questions.length));
           console.log("Question:", num);
@@ -95,9 +96,18 @@ function mousePressed() {
           // Get the <span> element that closes the modal
           var span = document.getElementById(`close${num}`);
 
+         //Open a new question only if the tile is not revealed previously
+          if(grid[i][j].revealed){
+          modal.style.display = "none";
+
+          }
+         else{ 
+          //Reveal the tile if unrevealed initially
+          grid[i][j].reveal();
           //open the modal
           if (document.getElementById("login").style.display == "none") {
             modal.style.display = "block";
+
             // When the user clicks on <span> (x), close the modal
             span.onclick = function() {
               modal.style.display = "none";
@@ -105,7 +115,7 @@ function mousePressed() {
               ans12 = document.getElementById(`userAns${num}`).value;
               console.log(ans12);
             };
-
+            
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
               if (event.target == modal) {
@@ -117,16 +127,16 @@ function mousePressed() {
               console.log("submit");
               ans12 = document.getElementById(`userAns${num}`).value;
               console.log(ans12);
-            };
-            if (
-              // ans12 &&
-              document.getElementById(`userAns${num}`).value &&
-              document.getElementById("login").style.display == "none"
-            ) {
-              grid[i][j].reveal();
+              //Increse score if ans is correct
+              if (ans12) {
+              console.log(ans12);
               score = score + inc;
+              document.getElementById("score").innerHTML = score;
               document.getElementById(`userAns${num}`).value = null;
             }
+
+            };
+
           }
           // } while (!ans);
           if (document.getElementById("login").style.display == "block") {
@@ -135,18 +145,23 @@ function mousePressed() {
           // console.log("Answer:", ans12);
           document.getElementById("score").innerHTML = score;
         }
+      }
+
 
         // hit mine
         if (grid[i][j].bee) {
           console.log("Hit Mine");
+          if(!grid[i][j].revealed){
           grid[i][j].reveal();
-          score = score - 5;
+          score = score - 3;
           document.getElementById("score").innerHTML = score;
+        }
         }
       }
     }
   }
 }
+
 
 function draw() {
   background(255);
@@ -177,8 +192,14 @@ name.addEventListener("click", saveToList);
 function saveToList() {
   var storeData = new Firebase("https://mindsweeper-92ffc.firebaseio.com/");
   const email = document.getElementById("email_field").value;
+  var min=document.getElementById("minutes").value;
+  var sec=document.getElementById("seconds").value;
+
   storeData.push({
     score: score,
-    email: email
+    email: email,
+    TimeMinLeft:min,
+    TimeSecLeft:sec
   });
+  logout();
 }

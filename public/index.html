@@ -8,6 +8,7 @@
       }
       #game {
         display: none;
+        z-index: 50;
       }
     </style>
 
@@ -46,7 +47,18 @@
 
   <body>
     <div id="game">
-      <div class="scoreCard" style="padding-right:250px">
+      <!--Timer -->
+      <div> 
+        Time Left :: 
+        <input id="minutes" type="text" style="width: 20px; 
+             border: none; font-size: 16px;  
+            font-weight: bold; color: black;"><font size="5"> : 
+                        </font> 
+        <input id="seconds" type="text" style="width: 20px; 
+                        border: none; font-size: 16px; 
+                        font-weight: bold; color: black;"> 
+    </div>
+      <div class="scoreCard" style="text-align: center">
         <p id="text"></p>
         <br /><br />
         <h2>Current Score: <span id="score"> 0</span></h2>
@@ -135,7 +147,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body"><p>printf("%d", num)</p></div>
+          <div class="modal-body"><p>Which of the following numbers does not belong to the following series:<br>2,3,6,7,8,14,15,30 ?</p></div>
           <div class="modal-footer">
             <input
               type="text"
@@ -187,6 +199,7 @@
         </div>
       </div>
     </div>
+     
 
     <script type="text/javascript" src="sketch.js"></script>
 
@@ -207,6 +220,7 @@
       };
       firebase.initializeApp(config);
     </script>
+    <script type="text/javascript" src="timer.js"></script>
     <script type="text/javascript" src="login.js"></script>
   </body>
 </html>

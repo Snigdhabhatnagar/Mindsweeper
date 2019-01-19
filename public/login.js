@@ -31,6 +31,7 @@ function login() {
 
       window.alert("Error : " + errorMessage);
     });
+    countdown() ;
 }
 function logout() {
   firebase
